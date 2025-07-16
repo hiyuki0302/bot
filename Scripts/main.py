@@ -14,6 +14,7 @@ class kline:
         self.base_url = "https://api.bybit.com"
 
     async def get_kline(self):
+        """ローソク足取得"""
         endpoint = "/v5/market/kline"
         url = f"{self.base_url}{endpoint}"
         params = {
