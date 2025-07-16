@@ -1,7 +1,6 @@
 import pybotters
 import json
 import asyncio
-import sys
 import pandas as pd
 from analysis import rsi_analysis
 
