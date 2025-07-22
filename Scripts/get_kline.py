@@ -2,7 +2,7 @@ import pybotters
 import json
 import asyncio
 import pandas as pd
-from analysis import rsi_analysis
+from analysis import rsi_analysis, atr_analysis
 
 class kline:
     def __init__(self, symbol:str, client:pybotters.Client):
@@ -20,7 +20,7 @@ class kline:
         params = {
             'category': "linear",
             'symbol': self.symbol,
-            'interval' : "15", #15分足
+            'interval' : "30", #15分足
             'limit' : "500" # 500本
         }
         result = await self.client.fetch("GET", url=url, params=params)
@@ -30,6 +30,8 @@ class kline:
         df = pd.DataFrame(data, columns=["timestamp", "open", "high", "low", "close", "volume", "quote_volume"]).astype(float)
         df["timestamp"] = pd.to_datetime(df["timestamp"].astype("int64"), unit='ms', utc=True) + pd.Timedelta(hours=9)
         df['RSI'] = rsi_analysis(data=df)
+        df['ATR'] = atr_analysis(data=df)
+        df.to_csv(r'C:\Users\User\git\bot\test.csv')
         print(df.dropna())
         return df
 
@@ -38,7 +40,7 @@ async def run_task(symbol, client:pybotters.Client):
     await bot.get_kline()
 
 async def main():
-    symbols = ['BTCUSDT']
+    symbols = ['BTCUSDT', 'ETHUSDT']
     async with pybotters.Client() as client:
         await asyncio.gather(*(run_task(symbol, client) for symbol in symbols))
 
