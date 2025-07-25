@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Bitget 急騰検出システム（pybotters版・簡素化）
 1つ前の15分足と比較して、50%以上の価格上昇とボリューム急増を検出してDiscordに通知
